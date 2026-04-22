@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Project</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="scripts.js" type="module"></script>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <form class="sidebar data-entry">
+            <div class="data-entry-item">
+                <label for="title">Title</label>
+                <input name="title" id="title" type="text" required>
+            </div>
+
+            <div class="data-entry-item">
+                <label for="author">Author</label>
+                <input name="author" id="author" type="text" required>
+            </div>
+
+            <div class="data-entry-item">
+                <label for="pages">Number of pages</label>
+                <input name="pages" id="pages" type="number" pattern="[0-9]" required>
+            </div>
+
+            <div class="data-entry-item">
+                <label for="isRead">Read</label>
+                <input name="isRead" id="isRead" type="checkbox">
+            </div>
+
+            <button type="submit" class="submit-btn data-entry-item">Add Book</button>
+            <button type="button" class="cancel-btn data-entry-item">Cancel</button>
+        </form>
+
+        <div class="header">
+            <div class="actions">
+                <div class="new-book-btn">New Book</div>
+            </div>
+        </div>
+
+        <div class="main">
+            <h2>Books in the library</h2>
+            <div class="books-list">
+                <div class="book-prop">Title</div>
+                <div class="book-prop">Author</div>
+                <div class="book-prop">Pages</div>
+                <div class="book-prop">Read?</div>
+                <div class="transparent"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
