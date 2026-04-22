@@ -11,13 +11,17 @@ function Book(title, author, pages, read = false) {
     this.read = read;
 }
 
+Book.prototype.toggleRead = function () {
+    this.read = !this.read;
+}
+
 function addBookToLibrary(title, author, pages, isRead) {
     myLibrary.push(new Book(title, author, pages, isRead));
 }
 
 // add some books
 addBookToLibrary("1984", "George Orwell", 328);
-addBookToLibrary("Brave New World", "Aldous Huxley", 288);
+addBookToLibrary("Brave New World", "Aldous Huxley", 288, true);
 addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 310);
 
 //DOM elements
@@ -26,12 +30,10 @@ const form = document.querySelector(".data-entry");
 const booksList = document.querySelector(".books-list");
 
 function displayBookEntry(book, index) {
-    const hasBeenRead = (book.read) ? "Yes" : "No";
     const fields = [
         book.title,
         book.author,
         book.pages,
-        hasBeenRead
     ]
 
     fields.forEach(value => {
@@ -41,14 +43,42 @@ function displayBookEntry(book, index) {
         booksList.appendChild(div);
     });
 
+    // show the read state of the book as a checkable slider
+    const label = document.createElement("label");
+    label.dataset.id = book.id;
+    label.classList.add(`book-item-${index}`, "switch");
+
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.classList.add("toggle-read");
+    label.appendChild(input);
+
+    const span = document.createElement("span");
+    if (book.read) {
+        span.classList.add("slider", "left");
+        span.textContent = "Yes";
+        input.checked = true;
+    } else {
+        span.classList.add("slider", "right");
+        span.textContent = "No";
+        input.checked = false;
+    }
+    label.appendChild(span);
+
+    booksList.appendChild(label);
+    // add trash button to allow deleting rows
+
+    const container = document.createElement("div");
     const img = document.createElement("img");
     img.src = "./assets/trash-bin.svg";
     img.alt = "";
     img.ariaHidden = "true";
     img.dataset.id = book.id;
     img.classList.add("trash-icon");
-    img.classList.add(`book-item-${index}`);
-    booksList.appendChild(img);
+    container.appendChild(img);
+
+    container.classList.add(`book-item-${index}`, "transparent");
+    booksList.appendChild(container);
 }
 
 function displayBooksInLibrary() {
@@ -62,7 +92,7 @@ displayBooksInLibrary();
 // Button to add new books
 document.querySelector('.new-book-btn').addEventListener("click", (e) => {
     form.style.display = "flex";
-    pageWrapper.style.gridTemplateColumns = "1fr 1fr";
+    pageWrapper.style.gridTemplateColumns = "1fr clamp(350px, 25vw, 600px)";
 });
 
 // get data from books
@@ -122,3 +152,27 @@ trashIcons.forEach(btn => {
     });
 });
 
+// change read state
+const toggleLabels = Array.from(document.querySelectorAll(".switch"));
+
+toggleLabels.forEach(toggle => {
+    toggle.addEventListener("change", () => {
+        const checkbox = toggle.querySelector("input");
+        const span = toggle.querySelector("span");
+        if (checkbox.checked) {
+            span.textContent = "Yes";
+            span.classList.add("left");
+            span.classList.remove("right");
+        } else {
+            span.textContent = "No";
+            span.classList.add("right");
+            span.classList.remove("left");
+        }
+
+        // toggle read state in the library
+        const index = myLibrary.findIndex(book => book.id === toggle.dataset.id);
+        console.table(myLibrary[index]);
+        myLibrary[index].toggleRead();
+        console.table(myLibrary[index]);
+    });
+});

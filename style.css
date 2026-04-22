@@ -91,6 +91,7 @@ body {
     background-color: rgb(247, 247, 234);
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 }
 
 .main {
@@ -102,23 +103,23 @@ body {
 }
 
 .main h2 {
-    text-align: center;
-    padding-block: 20px 30px;
+    padding: 20px 30px;
 }
 
 .books-list {
-    padding-inline: 20px;
+    /* padding-inline: 20px; */
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: 1fr 1fr 80px 80px 40px;
     row-gap: 10px;
-    align-items: center;
     justify-content: center;
 }
 
 [class^="book-item-"],
 .book-prop {
     background-color: white;
-    padding: 5px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
 }
 
 .book-prop {
@@ -130,6 +131,10 @@ body {
     background: transparent;
 }
 
+[class^="book-item-"]:has(.trash-icon) {
+    padding-inline: 0;
+}
+
 .trash-icon {
     display: block;
     filter: invert(1) brightness(1.2);
@@ -139,4 +144,57 @@ body {
 .trash-icon:hover {
     transform: scale(1.1);
     cursor: pointer;
+}
+
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  width: 50px;
+  height: 20px;
+  background: gray;
+  display: inline-block;
+  border-radius: 20px;
+  position: relative;
+  cursor: pointer;
+  color: white;
+  text-align: right;
+  padding-inline: 5px;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  transition: 0.2s;
+}
+
+input:checked + .slider {
+  background: green;
+}
+
+input:checked + .slider::before {
+  transform: translateX(30px);
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.slider.left {
+  text-align: left;
+}
+
+.slider.right {
+  text-align: right;
 }
